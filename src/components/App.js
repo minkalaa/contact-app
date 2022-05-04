@@ -5,23 +5,24 @@ import './App.css';
 import Header from './Header';
 import AddContact from './AddContact';
 import ContactList from './ContactList';
+import ContactDetail from './ContactDetail';
 
 function App() {
-  const LOCAL_STORAGE_KEY ="contacts";
+  const LOCAL_STORAGE_KEY = "contacts";
   const [contacts, setContacts] = useState([]);
 
   const addContactHandler = (contact) => {
-    console.log(contacts)
-    setContacts([...contacts, {id: v4(), ...contact}])
-  }
+    console.log(contact);
+    setContacts([...contacts, { id: v4(), ...contact }]);
+  };
 
   const removeContactHandler = (id) => {
     const newContactList = contacts.filter((contact) => {
       return contact.id !== id;
-    })
+    });
 
     setContacts(newContactList);
-  }
+  };
 
   useEffect(() => {
     const retriveContacts = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
@@ -39,7 +40,7 @@ function App() {
         <Header />
         <Switch>
           <Route
-            path="/" exact
+            exact path="/"
             render={(props) => (
               <ContactList
                 {...props}
@@ -55,6 +56,7 @@ function App() {
             )}
           />
         </Switch>
+        <Route path="/contact/:id" component={ContactDetail} />
       </Router>
     </div>
       {/* <AddContact AddContactHandler={ AddContactHandler } /> */}
